@@ -28,11 +28,11 @@ namespace PointOfSaleTerminal
             ProductList.Add(new Product( "English muffin",  "Smoothie stuff", "Food", 7.50));
         }
 
-        public void DiplayProduct()
+        public void DiplayProducts()
         {
-            foreach (Product product in ProductList) 
+            for (int i = 0; i < ProductList.Count; i++)
             {
-                Console.WriteLine($"{product.Name} - {product.Price:c}");
+                Console.WriteLine($"{i + 1}. {ProductList[i].Name} - ${ProductList[i].Price:c}");
             }
         }
 
