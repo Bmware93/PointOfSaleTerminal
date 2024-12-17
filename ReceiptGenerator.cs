@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PointOfSaleTerminal
 {
-    internal class ReceiptGenerator
+    public class ReceiptGenerator
     {
     }
 }
