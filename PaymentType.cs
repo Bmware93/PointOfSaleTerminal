@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PointOfSaleTerminal
 {
-    internal enum PaymentType
+    public enum PaymentType
     {
         Cash,
         Check,

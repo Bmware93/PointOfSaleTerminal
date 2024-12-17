@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PointOfSaleTerminal
 {
-    internal class InventoryManager
+    public class InventoryManager
     {
         public List<Product> ProductList { get; set; } = new List<Product>();
         public InventoryManager()
@@ -32,7 +32,7 @@ namespace PointOfSaleTerminal
         {
             for (int i = 0; i < ProductList.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {ProductList[i].Name} - ${ProductList[i].Price:c}");
+                Console.WriteLine($"{i + 1}. {ProductList[i].Name} - {ProductList[i].Price:c}");
             }
         }
 
