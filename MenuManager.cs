@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 
 //Display the menu for product selection.
 //Allow the user to select products by number/letter.
@@ -53,17 +54,19 @@ namespace PointOfSaleTerminal
                 }
 
             }
-
-            Console.WriteLine("Your order Summary: ");
-            double subtotal = 0;
-            foreach (var order in orders)
-            {
-                Console.WriteLine($"{order.Quantity} x {order.Product.Name} - {order.LineTotal:c}");
-                subtotal += order.LineTotal;
-            }
-            Console.WriteLine($"Subtotal: {subtotal:c}");
+            
+            //Console.WriteLine("Your order Summary: ");
+            //double subtotal = 0;
+            //foreach (var order in orders)
+            //{
+            //    Console.WriteLine($"{order.Quantity} x {order.Product.Name} - {order.LineTotal:c}");
+            //    subtotal += order.LineTotal;
+            //}
+            //Console.WriteLine($"Subtotal: {subtotal:c}");
 
         }
+        
 	}
+    
 }
 
