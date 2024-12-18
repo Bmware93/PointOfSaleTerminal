@@ -10,7 +10,7 @@ namespace PointOfSaleTerminal
     {
         List<Order> NewOrder { get; set; } = new();
 
-        public void CalculateTotalPrice(  )
+        public void CalculateTotalPrice()
         {
             double subTotal = 0;
             double salesTax = 0.06;
@@ -24,11 +24,5 @@ namespace PointOfSaleTerminal
             grandTotal = subTotal + subTotal * salesTax;
         }
 
-    };
-
-    
-
-
-
-
+    }
 }
