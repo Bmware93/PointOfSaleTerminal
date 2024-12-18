@@ -1,8 +1,24 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using PointOfSaleTerminal;
-using System.ComponentModel.Design;
+using System;
 
-MenuManager.DisplayMenu();
+
+
+namespace PointOfSaleTerminal
+
+{
+    public class Program { 
+    static void Main (string[] args)
+    {
+            MenuManager.DisplayMenu();
+
+    }
+    
+        }
+}
+
+
+
+
 
 //InventoryManager inventory = new InventoryManager();
 //List<Product> products = inventory.ProductList;
