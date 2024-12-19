@@ -9,70 +9,168 @@ namespace PointOfSaleTerminal
 {
     public class PaymentProcessor
     {
-        List<Order> NewOrder { get; set; } = new();
         double subTotal = 0;
-        double salesTax = 0.06;
-        double grandTotal;
+        double salesTax = 0;
+        public double GrandTotal {  get; set; }
 
-        public double CalculateTotalPrice(  )
+
+
+
+
+        public string ProcessPayment()
         {
-            for ( int i = 0; i < NewOrder.Count; i++ )
+            Console.WriteLine($"The total for your order is: {GrandTotal:c}");
+            Console.WriteLine("How would you like to pay? \n1.Cash\n2.Card\n3.Check");
+            string choice = Console.ReadLine();
+            switch (choice)
             {
-                subTotal += (NewOrder[i].Product.Price * NewOrder[i].Quantity);
+                case "1":
+                    ProcessCashPayment();
+                    return "Cash";
+                case "2":
+                    ProcessCardPayment();
+                    return "Credit Card";
+
+                case "3":
+                    ProcessCheckPayment();
+                    return "Check";
+                default:
+                    Console.WriteLine("Not a valid input. Please try again");
+                    return ProcessPayment();
             }
-            grandTotal = subTotal + subTotal * salesTax;
-            return grandTotal;
+            return "";
+        }
+        public double CalculateGrandTotal(List<Order> orders)
+        {
+            for ( int i = 0; i < orders.Count; i++ )
+            {
+                subTotal += (orders[i].Product.Price * orders[i].Quantity);
+            }
+            GrandTotal = subTotal + (subTotal * 0.06);
+            return GrandTotal;
         }
 
-        public void CashPayment (double amount)
+        public void ProcessCashPayment()
         {
-           double change = amount - grandTotal ;
-            Console.WriteLine($"You paid {amount} your change is {change}");
+            double cashGiven;
+            do
+            {
+                Console.WriteLine($"Enter cash amount: ");
+                if (double.TryParse(Console.ReadLine(), out cashGiven) && cashGiven >= GrandTotal)
+                {
+                    Console.WriteLine($"Change: {cashGiven - GrandTotal:c}");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid amount or insufficient funds. Please try again.");
+                }
+            } while (true);
+        }
+        private void ProcessCardPayment()
+        {
+            string creditCardNumber = GetValidCreditCardNumber();
+            string expirationDate = GetValidExpirationDate();
+            string cvv = GetValidCVV();
+            Console.WriteLine("Payment Successful");
         }
 
-        public void CreditPayment ()
-        {
-            Console.WriteLine("Please enter your credit card number: ");
-            string userInput = Console.ReadLine();
-            bool isValidNumber = long.TryParse(userInput, out long number);
-            if ( isValidNumber && userInput.Length == 15 || userInput.Length == 16)
-            {
-                Console.WriteLine("Enter the expiration date (MM/YY):");
-                string expirationDate = Console.ReadLine();
-
-                Console.WriteLine("Enter the CVV: ");
-                string cvv = Console.ReadLine();
-
-                Console.WriteLine($"You paid {grandTotal}");
-            }
-            else
-            {
-                Console.WriteLine("Please enter a valid credit card number");
-            }
- 
-        }
-        
-        public void CheckPayment ()
+        public void ProcessCheckPayment()
         {
             Console.WriteLine("Please enter your check number: ");
             string checkNumber = Console.ReadLine();
 
             Console.WriteLine($"Paid with check: {checkNumber}");
         }
-        
-        public void Receipt()
+
+        #region "Card Validations"
+        private string GetValidCreditCardNumber()
         {
-            Console.WriteLine("Your order Summary: ");
-            double subtotal = 0;
-            foreach (var order in NewOrder)
+            string creditCardNumber;
+            do
             {
-                Console.WriteLine($"{order.Quantity} x {order.Product.Name} - {order.LineTotal:c}");
-                subtotal += order.LineTotal;
+                Console.WriteLine("Please enter the credit card number: ");
+                creditCardNumber = Console.ReadLine();
+                if (isValidCreditCardNumber(creditCardNumber) == false)
+                {
+                    Console.WriteLine("Invalid credit card number. Please try again.");
+                }
+
+
+            } while (isValidCreditCardNumber(creditCardNumber) == false);
+            return creditCardNumber;
+        }
+
+        private bool isValidCreditCardNumber(string creditCardNumber)
+        {
+            return creditCardNumber.All(char.IsDigit) && creditCardNumber.Length == 15 || creditCardNumber.Length == 16;
+        }
+        private string GetValidExpirationDate()
+        {
+            string expirationDate;
+            do
+            {
+                Console.WriteLine("Enter the expiration date (MM/YY)");
+                expirationDate = Console.ReadLine();
+                if (IsValidExpirationDate(expirationDate) == false)
+                {
+                    Console.WriteLine("Invalid expiration date. Please try again.");
+                }
+            } while (IsValidExpirationDate(expirationDate) == false);
+            return expirationDate;
+        }
+
+        private bool IsValidExpirationDate(string expirationDate)
+        {
+            if (DateTime.TryParseExact(expirationDate, "MM/yy", null, System.Globalization.DateTimeStyles.None, out DateTime date))
+            {
+                return date > DateTime.Now;
             }
-            Console.WriteLine($"Subtotal: {subtotal:c}");
+            return false;
+        }
+        private string GetValidCVV()
+        {
+            string cvv;
+            do
+            {
+                Console.WriteLine("What is the credit card CVV?");
+                cvv = Console.ReadLine();
+                if (IsValidCVV(cvv) == false)
+                {
+                    Console.WriteLine("Invalid input for CVV. Please try again");
+                }
+                return cvv;
+            } while (IsValidCVV(cvv) == false);
 
         }
-        
+
+        private bool IsValidCVV(string cvv)
+        {
+            if (cvv.All(char.IsDigit) && cvv.Length == 3 || cvv.Length == 4)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
+        public void Receipt(List<Order> orders)
+        {
+            subTotal = 0;
+            salesTax = 0;
+            Console.WriteLine("Your order Summary: ");
+            foreach (var order in orders)
+            {
+                Console.WriteLine($"{order.Quantity} x {order.Product.Name} - {order.LineTotal:c}");
+                subTotal += order.LineTotal;
+            }
+            salesTax = 0.06 * subTotal;
+            Console.WriteLine($"Subtotal: {subTotal:c}");
+            Console.WriteLine($"Sales Tax: {salesTax:c}");
+            Console.WriteLine($"Grand Toal: {GrandTotal:c}");
+            Console.WriteLine("-----------------");
+        }
+
 
     };
 
