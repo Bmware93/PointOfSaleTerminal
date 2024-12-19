@@ -17,6 +17,7 @@ namespace PointOfSaleTerminal
             InventoryManager inventory = new InventoryManager();
             List<Order> orders = new List<Order>();
             bool isShopping = true;
+
             Console.WriteLine("List of available products: \n");
             while (isShopping)
             {

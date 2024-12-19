@@ -11,7 +11,6 @@ namespace PointOfSaleTerminal
         public List<Product> ProductList { get; set; } = new List<Product>();
         public InventoryManager()
         {
-            
             ProductList.Add(new Product("Caramel Latte",  "caramel syrup mixed into steamed milk and combined with espresso", "Drink", 7.50));
             ProductList.Add(new Product( "Vanilla Latte",  "Vanilla syrup mixed into steamed milk and combined with espresso", "Drink", 7.50));
             ProductList.Add(new Product( "White Chocolate Latte",  "White chocolate syrup mixed into steamed milk and combined with espresso", "Drink", 7.50));
