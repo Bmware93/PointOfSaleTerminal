@@ -13,10 +13,6 @@ namespace PointOfSaleTerminal
         double salesTax = 0;
         public double GrandTotal {  get; set; }
 
-
-
-
-
         public string ProcessPayment()
         {
             Console.WriteLine($"The total for your order is: {GrandTotal:c}");
@@ -172,11 +168,5 @@ namespace PointOfSaleTerminal
         }
 
 
-    };
-
-    
-
-
-
-
+    }
 }

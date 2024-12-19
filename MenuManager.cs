@@ -13,6 +13,7 @@ namespace PointOfSaleTerminal
 	public class MenuManager
 		
 	{
+
 		Product InventoryProduct { get; set; }
 		//int Quantity { get; set; }
 
@@ -22,17 +23,23 @@ namespace PointOfSaleTerminal
             
             List<Order> orders = new List<Order>();
             bool isShopping = true;
+
             Console.WriteLine("List of available products: \n");
             while (isShopping)
             {
-
                 inventory.DiplayProducts();
+
                 Console.WriteLine("\nEnter the number of the product you'd like to buy (or 0 to finish):");
+
                 if (int.TryParse(Console.ReadLine(), out int productNumber) && productNumber > 0 && productNumber <= inventory.ProductList.Count)
                 {
                     Product selectedProduct = inventory.ProductList[productNumber - 1];
 
-                    Console.WriteLine($"How many of {selectedProduct.Name}'s would you like?");
+
+                    Console.WriteLine($"How many {selectedProduct.Name}'s would you like?");
+
+             
+
                     if (int.TryParse(Console.ReadLine(), out int itemQuantity) && itemQuantity > 0)
                     {
                         orders.Add(new Order { Product = selectedProduct, Quantity = itemQuantity });
@@ -52,9 +59,10 @@ namespace PointOfSaleTerminal
                 {
                     Console.WriteLine("Invalid product number. Please try again.");
                 }
-
             }
+
             return orders;
+
         }
         
 	}
