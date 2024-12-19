@@ -16,10 +16,10 @@ namespace PointOfSaleTerminal
 		Product InventoryProduct { get; set; }
 		//int Quantity { get; set; }
 
-		static public void DisplayMenu()
+		static public List<Order> CreateOrder()
 		{
             InventoryManager inventory = new InventoryManager();
-            List<Product> products = inventory.ProductList;
+            
             List<Order> orders = new List<Order>();
             bool isShopping = true;
             Console.WriteLine("List of available products: \n");
@@ -27,12 +27,12 @@ namespace PointOfSaleTerminal
             {
 
                 inventory.DiplayProducts();
-                Console.WriteLine("Enter the number of the product you'd like to buy (or 0 to finish):");
-                if (int.TryParse(Console.ReadLine(), out int productNumber) && productNumber > 0 && productNumber <= products.Count)
+                Console.WriteLine("\nEnter the number of the product you'd like to buy (or 0 to finish):");
+                if (int.TryParse(Console.ReadLine(), out int productNumber) && productNumber > 0 && productNumber <= inventory.ProductList.Count)
                 {
-                    Product selectedProduct = products[productNumber - 1];
+                    Product selectedProduct = inventory.ProductList[productNumber - 1];
 
-                    Console.WriteLine($"How many of {selectedProduct} would you like?");
+                    Console.WriteLine($"How many of {selectedProduct.Name}'s would you like?");
                     if (int.TryParse(Console.ReadLine(), out int itemQuantity) && itemQuantity > 0)
                     {
                         orders.Add(new Order { Product = selectedProduct, Quantity = itemQuantity });
@@ -54,16 +54,7 @@ namespace PointOfSaleTerminal
                 }
 
             }
-            
-            //Console.WriteLine("Your order Summary: ");
-            //double subtotal = 0;
-            //foreach (var order in orders)
-            //{
-            //    Console.WriteLine($"{order.Quantity} x {order.Product.Name} - {order.LineTotal:c}");
-            //    subtotal += order.LineTotal;
-            //}
-            //Console.WriteLine($"Subtotal: {subtotal:c}");
-
+            return orders;
         }
         
 	}
