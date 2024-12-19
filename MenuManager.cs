@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 
 //Display the menu for product selection.
 //Allow the user to select products by number/letter.
@@ -12,9 +13,14 @@ namespace PointOfSaleTerminal
 	public class MenuManager
 		
 	{
-        static public void DisplayMenu()
+
+		Product InventoryProduct { get; set; }
+		//int Quantity { get; set; }
+
+		static public List<Order> CreateOrder()
 		{
             InventoryManager inventory = new InventoryManager();
+            
             List<Order> orders = new List<Order>();
             bool isShopping = true;
 
@@ -22,12 +28,18 @@ namespace PointOfSaleTerminal
             while (isShopping)
             {
                 inventory.DiplayProducts();
-                Console.WriteLine("Enter the number of the product you'd like to buy (or 0 to finish):");
+
+                Console.WriteLine("\nEnter the number of the product you'd like to buy (or 0 to finish):");
+
                 if (int.TryParse(Console.ReadLine(), out int productNumber) && productNumber > 0 && productNumber <= inventory.ProductList.Count)
                 {
                     Product selectedProduct = inventory.ProductList[productNumber - 1];
 
+
                     Console.WriteLine($"How many {selectedProduct.Name}'s would you like?");
+
+             
+
                     if (int.TryParse(Console.ReadLine(), out int itemQuantity) && itemQuantity > 0)
                     {
                         orders.Add(new Order { Product = selectedProduct, Quantity = itemQuantity });
@@ -49,15 +61,11 @@ namespace PointOfSaleTerminal
                 }
             }
 
-            Console.WriteLine("Your order Summary: ");
-            double subtotal = 0;
-            foreach (var order in orders)
-            {
-                Console.WriteLine($"{order.Quantity} x {order.Product.Name} - {order.LineTotal:c}");
-                subtotal += order.LineTotal;
-            }
-            Console.WriteLine($"Subtotal: {subtotal:c}");
+            return orders;
+
         }
+        
 	}
+    
 }
 
